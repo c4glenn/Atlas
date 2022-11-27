@@ -1,7 +1,7 @@
 # bot.py
 import os
 import sqlite3
-import discord
+import discordBot
 import asyncio
 import json
 from dotenv import load_dotenv
@@ -9,9 +9,9 @@ from users import User, Users
 from messages import Messages
 
 
-class DiscordClient(discord.Client):
+class DiscordClient(discordBot.Client):
     def __init__(self) -> None:
-        intents = discord.Intents.default()
+        intents = discordBot.Intents.default()
         intents.message_content = True
         intents.dm_messages = True
         intents.members = True
@@ -26,7 +26,7 @@ class DiscordClient(discord.Client):
     async def on_ready(self):
         print(f'Logged on as {self.user}!')
 
-    async def on_message(self, message: discord.message.Message):
+    async def on_message(self, message: discordBot.message.Message):
         await message.author.send(message.content)
         with sqlite3.connect("Atlas.db") as connection:
             user = Users.getUserFromDiscord(connection, message.author.id)
